@@ -1,44 +1,105 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
         <h1 class="display-4 fw-bold lh-1">Get random name with desired country and preferences</h1>
         <p class="lead">The generated names are extracted from <a href="https://www.theguardian.com/technology/2021/apr/03/500-million-facebook-users-website-hackers">Facebook massive dump (533M users)</a></p>
         <div class="justify-content-md-start mb-4 mb-lg-3">
-            <div class="mb-3">
-                <label for="countryInput" class="form-label">Select Country</label>
-                <select class="form-select" aria-label="multiple select country" id="countryInput">
-                    <option selected>Select your preferred country</option>
-                    {% for c in countries %}
-                        <option value="{{c.id}}">{{c.name}}</option>
-                    {% endfor %}
-                  </select>
-            </div>
-            <div class="mb-3">
-                <div>
-                    <label class="form-label" for="inlineRadio1">Specify gender</label>
+            <form id="babyNameForm">
+                <div class="mb-3">
+                    <label for="countryInput" class="form-label">Select Country</label>
+                    <select class="form-select" aria-label="multiple select country" id="countryInput" name="country" required>
+                        <option>Select your preferred country</option>
+                        {% for c in countries %}
+                            <option value="{{c.id}}">{{c.name}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="0">
-                    <label class="form-check-label" for="inlineRadio1">Unspecified</label>
+                <div class="mb-3">
+                    <div>
+                        <label class="form-label" for="inlineRadio1">Specify gender</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="0" checked>
+                        <label class="form-check-label" for="inlineRadio1">Unspecified</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="1">
+                        <label class="form-check-label" for="inlineRadio2">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="2">
+                        <label class="form-check-label" for="inlineRadio3">Female</label>
+                    </div>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="1">
-                    <label class="form-check-label" for="inlineRadio2">Male</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="2>
-                    <label class="form-check-label" for="inlineRadio3">Female</label>
-                </div>
-            </div>
 
-            <div class="mb-3">
-                <label for="textInput" class="form-label">Specify first letter or word to be contained in the names</label>
-                <input type="text" class="form-control" id="textInput" name="keyword">
-            </div>
-            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Generate</button>
+                <div class="mb-3">
+                    <label for="textInput" class="form-label">Specify first letter or word to be contained in the names</label>
+                    <input type="text" class="form-control" id="keywordInput" name="keyword">
+                </div>
+                <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" id="generateBtn">Generate</button>
+            </form>
         </div>
     </div>
     <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
-        <img class="rounded-lg-3" src="bootstrap-docs.png" alt="" width="720">
+        <img class="rounded-lg-3" src="{% static 'img/smiling-baby-lying-bed.jpg'%}" alt="" width="480">    
     </div>
+    <p><a href='https://www.freepik.com/photos/happy-baby'>Happy baby photo created by javi_indy - www.freepik.com</a></p>
+{% endblock %}
+
+{% block script %}
+    <script>
+        var currOffset = 0;
+        $("#generateBtn").click(() => {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'namegen_getNames' %}",
+                data: $('#babyNameForm').serialize(),
+                success: (response) => {
+                    var res = response.names;
+                    if(res.length == 0){
+                        Swal.fire(
+                            'No result',
+                            "Sorry, we can't find what you want",
+                            'error'
+                        )
+                        return;
+                    }
+                    var keyword = $("#keywordInput").val().toLowerCase();
+                    if(keyword.length == 1){
+                        var resultSet = res.filter((el) => { 
+                                return el.given_name.toLowerCase().startsWith(keyword);
+                        });
+                    } else if(keyword.length > 0){
+                        var resultSet = res.filter((el) => { 
+                                return el.given_name.toLowerCase().includes(keyword);
+                        });
+                    } else {
+                        var resultSet = res;
+                    }
+                    var textRes = ``;
+                    for(var j=0; j<10; j++){
+                        if(j == resultSet.length) break;
+                        textRes += `${resultSet[j].given_name} ${resultSet[j].last_name}`;
+                        if(j == resultSet.length-1) break;
+                        textRes += `<br/>`;
+                    }
+                    Swal.fire({
+                        title: "<h4>Here's your baby names! :)</h4>",
+                        icon: 'info',
+                        html: textRes,
+                        showCloseButton: true,
+                        showCancelButton: false,
+                        focusConfirm: false,
+                        confirmButtonText:
+                            '<i class="fa fa-thumbs-up"></i> Great!',
+                        confirmButtonAriaLabel: 'Thumbs up, great!',
+                        cancelButtonText:
+                            '<i class="fa fa-thumbs-down"></i>',
+                        cancelButtonAriaLabel: 'Thumbs down'
+                        })
+                }
+            });
+        })
+    </script>
 {% endblock %}
