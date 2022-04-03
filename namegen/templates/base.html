@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hariswdev</title>
+        <link rel="stylesheet" href="{%static 'css/bootstrap.css' %}">
+    </head>
+    <body style="background-color: #88BDBC;">
+        <main>
+            <header>
+                <div class="px-3 py-2 bg-dark text-white">
+                    <div class="container">
+                      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                        <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                            <img src="{% static 'img/hacker.png' %}" alt="" width="40" class="d-inline-block align-text-top">
+                            Hariswdev
+                        </a>
+                        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                          <li>
+                            <a href="#" class="nav-link text-secondary">
+                              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"></use></svg>
+                              Home
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#" class="nav-link text-white">
+                              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg>
+                              Dashboard
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+            </header>
+            <div class="container">
+                <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg bg-white">
+                    {% block content %}
+                    {% endblock %}
+                  </div>
+            </div>
+        </div>
+        </main>
+        <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#" style="font-size: 30px;">
+                    <img src="{% static 'img/hacker.png' %}" alt="" width="40" class="d-inline-block align-text-top">
+                    Hariswdev
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown link
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </nav> -->
+        
+        <script src="{% static 'js/bootstrap.bundle.js' %}" />
+    </body>
+</html>

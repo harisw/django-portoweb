@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+        <h1 class="display-4 fw-bold lh-1">Get random name with desired country and preferences</h1>
+        <p class="lead">The generated names are extracted from <a href="https://www.theguardian.com/technology/2021/apr/03/500-million-facebook-users-website-hackers">Facebook massive dump (533M users)</a></p>
+        <div class="justify-content-md-start mb-4 mb-lg-3">
+            <div class="mb-3">
+                <label for="countryInput" class="form-label">Select Country</label>
+                <select class="form-select" aria-label="multiple select country" id="countryInput">
+                    <option selected>Select your preferred country</option>
+                    {% for c in countries %}
+                        <option value="{{c.id}}">{{c.name}}</option>
+                    {% endfor %}
+                  </select>
+            </div>
+            <div class="mb-3">
+                <div>
+                    <label class="form-label" for="inlineRadio1">Specify gender</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="0">
+                    <label class="form-check-label" for="inlineRadio1">Unspecified</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="1">
+                    <label class="form-check-label" for="inlineRadio2">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="2>
+                    <label class="form-check-label" for="inlineRadio3">Female</label>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="textInput" class="form-label">Specify first letter or word to be contained in the names</label>
+                <input type="text" class="form-control" id="textInput" name="keyword">
+            </div>
+            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Generate</button>
+        </div>
+    </div>
+    <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
+        <img class="rounded-lg-3" src="bootstrap-docs.png" alt="" width="720">
+    </div>
+{% endblock %}
