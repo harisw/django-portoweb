@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div>
+        <h3 id="usernameHeader">Username</h3>
+        <input type="text" id="username"><button id="joinBtn" class="btn btn-primary">Join Room</button>
+    </div>
+
+    <div class="container">
+        <div id=""video-container>
+            <div><video id="local-video" autoplay playsinline></video></div>
+            <button id="btn-toggle-audio">Mute Audio</button>
+            <button id="btn-toggle-video">Off Video</button>
+        </div>
+        <div id="chat">
+            <h3>CHAT</h3>
+            <div id="messages">
+                <ul id=""message-list></ul>
+            </div>
+            <div><input id="msg"><button id="btn-send-msg">Send Message</button></div>
+            <button id=""btn-share-screen">Share Screen</button>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{% endblock %}

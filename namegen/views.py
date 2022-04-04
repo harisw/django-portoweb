@@ -26,3 +26,7 @@ def getNames(request):
 
     namesResult = namesResult[:10].values()
     return JsonResponse({'names': list(namesResult)})
+
+def chatIndex(request):
+    context = {}
+    return render(request, 'chat.html', context=context)
