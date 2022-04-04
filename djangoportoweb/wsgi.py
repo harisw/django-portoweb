@@ -16,5 +16,10 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djangoportoweb.settings')
 application = get_wsgi_application()
 
 
-from whitenoise.django import DjangoWhiteNoise
-application = DjangoWhiteNoise(application)
+# from whitenoise import WhiteNoise
+# application = WhiteNoise(application)
+# from whitenoise import WhiteNoise
+# from djangoportoweb import wsgi
+# application = wsgi()
+# application = WhiteNoise(application, root="/namegen/static")
+# application.add_files("/namegen/static", prefix="more-files/")
