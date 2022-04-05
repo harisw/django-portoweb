@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='namegen_index'),
-    path('file-storage/', views.fileStorageIndex, name='namegen_file_storage'),
+    path('file-store/', views.fileStoreIndex, name='namegen_file_store'),
+    path('file-store/<slug:slug>/', views.fileStoreGet, name='namegen_file_store_get'),
     path('api/getnames/', views.getNames, name='namegen_getNames'),
 ]

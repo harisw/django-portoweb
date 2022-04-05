@@ -34,7 +34,8 @@ class StoredFile(models.Model):
     downloaded_by = models.IntegerField(default=0)
     created_at = models.DateTimeField(default=timezone.now)
     expired_at = models.DateTimeField()
-
+    age = models.IntegerField(default=1)
+    
     def __str__(self) -> str:
         return self.slug
 
