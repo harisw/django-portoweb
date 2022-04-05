@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="pt-5">
+        <h1 class="display-4 fw-bold lh-1">Store your file with a password securely here</h1>
+        <p class="lead">We will store your file temporarily here. Relax, we will encrypt your file in our storage.
+            So, no one will have access to it, unless they have the given password and link
+        </p>
+        <div class="align-center mb-4 mb-lg-3">
+            <form enctype="multipart/form-data" method="POST" id="fileForm">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="formFileMultiple" class="form-label">Select files to upload</label>
+                    <input class="form-control" type="file" name="userfiles" id="formFile" multiple>
+                </div>
+                <div class="mb-3">
+                    <label for="customId">Set password</label>
+                    <div class="row justify-content-lg-start">
+                        <div class="col-6">
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <div class="col-6">
+                            <input class="form-check-input" type="checkbox" value="" id="noPasswordCheck" name="noPasswordCheck">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                No password
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="formFileMultiple" class="form-label">Select duration to store the file</label>
+                    <select class="form-select" aria-label="select duration" id="durationStore" required>
+                        <option>Set storage lifetime</option>
+                        <option value="1">1 hour</option>
+                        <option value="3">3 hour</option>
+                        <option value="6">6 hour</option>
+                        <option value="12">12 hour</option>
+                        <option value="24">1 day</option>
+                        <option value="72">3 day</option>
+                    </select>
+                </div>
+                <input type="hidden" id="durInput" name="expired">
+                <div class="mb-3">
+                    <label for="formCustomUrl" class="form-label">Set custom url</label>
+                    <input class="form-control" type="text" name="customUrl" id="formCustomUrl"
+                    placeholder="Leave it empty, so we can pick one for you">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" id="uploadBtn">Upload</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+    <script>
+        $("#fileForm").submit(() => {
+            var h = $('#durationStore').val()
+            var now = moment()
+            var expDate = now.add(h, 'hours').format('YYYY-MM-DD HH:MM:SS')
+            console.log(h)
+            console.log(expDate)
+            $("#durInput").val(expDate)
+            return true;
+        })
+    </script>
+{% endblock %}

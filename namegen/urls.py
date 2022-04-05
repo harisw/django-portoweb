@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='namegen_index'),
-    path('api/getnames/', views.getNames, name='namegen_getNames')
+    path('file-storage/', views.fileStorageIndex, name='namegen_file_storage'),
+    path('api/getnames/', views.getNames, name='namegen_getNames'),
 ]

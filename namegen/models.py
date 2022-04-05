@@ -26,3 +26,18 @@ class NamesDB(models.Model):
 
     def __str__(self) -> str:
         return self.given_name + self.last_name
+
+class StoredFile(models.Model):
+    slug = models.CharField(max_length=50)
+    file_path = models.CharField(max_length=100)
+    password = models.CharField(max_length=255, null=True)
+    downloaded_by = models.IntegerField(default=0)
+    created_at = models.DateTimeField(default=timezone.now)
+    expired_at = models.DateTimeField()
+
+    def __str__(self) -> str:
+        return self.slug
+
+# class StoredDetails(models.Model):
+#     stored_parent = models.ForeignKey(StoredFile, on_delete=models.CASCADE)
+#     file_path = models.CharField(max_length=255)
