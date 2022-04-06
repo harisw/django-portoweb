@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'namegen',
-    'wenak.apps.WenakConfig'
+    'wenak.apps.WenakConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

@@ -4,6 +4,8 @@ from .models import Recipe
 import csv
 from django.conf import settings
 import os
+from rest_framework import generics
+from .serializers import RecipeSerializer
 
 # Create your views here.
 def index(request):
@@ -31,3 +33,8 @@ def seed(request):
     recipe_instances = [Recipe(**data) for data in rows]
     Recipe.objects.insert(recipe_instances, load_bulk=False)
     return render(request, 'wenak.html', {})
+
+class RecipeListCreate(generics.ListCreateAPIView):
+    item_per_page = 10
+    queryset = Recipe.objects.limit(item_per_page)
+    serializer_class = RecipeSerializer
