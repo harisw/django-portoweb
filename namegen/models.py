@@ -35,10 +35,6 @@ class StoredFile(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     expired_at = models.DateTimeField()
     age = models.IntegerField(default=1)
-    
+
     def __str__(self) -> str:
         return self.slug
-
-# class StoredDetails(models.Model):
-#     stored_parent = models.ForeignKey(StoredFile, on_delete=models.CASCADE)
-#     file_path = models.CharField(max_length=255)
