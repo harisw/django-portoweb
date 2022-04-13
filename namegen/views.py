@@ -20,18 +20,7 @@ def index(request):
 def getNames(request):
     _country = request.GET.get('country', None)
     _gender = request.GET.get('gender')
-    _keyword = request.GET.get('keyword', '')
     
-    # if len(_keyword )== 1:
-    #     query_keyword = "'"+_keyword+"%'"
-    # elif len(_keyword) > 1:
-    #     query_keyword = '%'+_keyword
-    
-
-    # if len(_keyword) > 0:
-    #     namesResult = NamesDB.objects.filter(country_id=_country, gender=_gender,
-    #         given_name__icontains=query_keyword)
-    # else:
     namesResult = NamesDB.objects.filter(country_id=_country, gender=_gender)
 
     namesResult = namesResult[:10].values()
@@ -51,8 +40,6 @@ def fileStoreIndex(request):
         
         encrypted_file = handle_uploaded_file(request.FILES, customUrl, password)
         hashed_password = hashlib.md5(password.encode()).hexdigest()
-        print('pass: '+password)
-        print('hashed: '+hashed_password)
         newStoredFile = StoredFile(slug=customUrl, file_path=encrypted_file, password=hashed_password, expired_at=timezone.now())
         newStoredFile.save()
         return render(request, 'file_storage.html', {})
@@ -69,17 +56,18 @@ def handle_uploaded_file(files, name, password):
     path = settings.TEMP_ROOT
     zip_path = os.path.join(path, name+".zip")
     with zipfile.ZipFile(zip_path, mode="w") as archive:
-        for file in files.getlist('file'):
+        
+        for file in files.getlist('userfiles'):
             written_path = os.path.join(path, file.name)
             with open(written_path, 'wb+') as destination:
                 for chunk in file.chunks():
                     destination.write(chunk)
-            archive.write(written_path)
+            archive.write(written_path, arcname=file.name)
         archive.close()
 
     if password == '':
         password = name
-
+    
     pyAesCrypt.encryptFile(zip_path, zip_path+".aes", password)
     return name+".zip.aes"
 
@@ -110,9 +98,6 @@ def fileStoreGet(request, slug):
     else:
         input_pass = request.POST.get('password', '')
         hashed_inp = hashlib.md5(input_pass.encode()).hexdigest()
-        print('inputpass: '+input_pass)
-        print('inp: '+ hashed_inp)
-        print('pass: '+ file.password)
         if hashed_inp == file.password:
             response = handle_download_file(file.file_path, input_pass)
             return response
