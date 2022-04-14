@@ -1,0 +1,57 @@
+{% extends 'wenak/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="d-flex flex-row mt-5">
+            <div class="pd-2 bd-highlight mx-3">
+                <img src="https://media.istockphoto.com/photos/multigrain-toast-with-fried-egg-and-roasted-tomatoes-picture-id1036880806?k=20&m=1036880806&s=612x612&w=0&h=zDAHMfy86-TzPWd0yXkyQLUyaz-NS83hWL94PJm2nlA="
+                alt="Breakfast image" class="rounded mx-auto" width="250" height="300" style="object-fit: cover;">
+                <h4 class="text-center mt-2">
+                    <a href="{%url 'views_by_category' category='breakfast' %}" style="text-decoration: none;">Breakfast</a>
+                </h4>
+            </div>
+            <div class="pd-2 bd-highlight mx-3">
+                <img src="https://media.istockphoto.com/photos/multigrain-toast-with-fried-egg-and-roasted-tomatoes-picture-id1036880806?k=20&m=1036880806&s=612x612&w=0&h=zDAHMfy86-TzPWd0yXkyQLUyaz-NS83hWL94PJm2nlA="
+                alt="Breakfast image" class="rounded mx-auto" width="250" height="300" style="object-fit: cover;">
+                <h4 class="text-center mt-2">
+                    <a href="{%url 'views_by_category' category='lunch' %}" style="text-decoration: none;">Lunch</a>
+                </h4>
+            </div>
+            <div class="pd-2 bd-highlight mx-3">
+                <img src="https://media.istockphoto.com/photos/multigrain-toast-with-fried-egg-and-roasted-tomatoes-picture-id1036880806?k=20&m=1036880806&s=612x612&w=0&h=zDAHMfy86-TzPWd0yXkyQLUyaz-NS83hWL94PJm2nlA="
+                alt="Breakfast image" class="rounded mx-auto" width="250" height="300" style="object-fit: cover;">
+                <h4 class="text-center mt-2">
+                    <a href="{%url 'views_by_category' category='dinner' %}" style="text-decoration: none;">Dinner</a>
+                </h4>
+            </div>
+            <div class="pd-2 bd-highlight mx-3">
+                <img src="https://media.istockphoto.com/photos/multigrain-toast-with-fried-egg-and-roasted-tomatoes-picture-id1036880806?k=20&m=1036880806&s=612x612&w=0&h=zDAHMfy86-TzPWd0yXkyQLUyaz-NS83hWL94PJm2nlA="
+                alt="Breakfast image" class="rounded mx-auto" width="250" height="300" style="object-fit: cover;">
+                <h4 class="text-center mt-2">
+                    <a href="{%url 'views_by_category' category='dessert' %}" style="text-decoration: none;">Dessert</a>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-row my-3 mx-0 bg-dark p-3 justify-content-center">
+        <div class="bd-highlight px-3">
+            <h3 class="text-white">Search recipes</h4>
+        </div>
+        <div class="bd-highlight px-3">
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="bd-highlight px-3">
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+    </div>
+{% endblock %}

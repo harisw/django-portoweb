@@ -9,7 +9,10 @@ from .serializers import RecipeSerializer
 
 # Create your views here.
 def index(request):
-    return render(request, 'wenak.html', {})
+    return render(request, 'wenak/wenak.html', {})
+
+def by_category(request, category):
+    return render(request, 'wenak/wenak.html', {})
 
 def seed(request):
     csvfile = os.path.join(settings.STATIC_ROOT, '1k_preprocessedrecipes.csv')
@@ -32,7 +35,7 @@ def seed(request):
         })
     recipe_instances = [Recipe(**data) for data in rows]
     Recipe.objects.insert(recipe_instances, load_bulk=False)
-    return render(request, 'wenak.html', {})
+    return render(request, 'wenak/wenak.html', {})
 
 class RecipeListCreate(generics.ListCreateAPIView):
     item_per_page = 10
