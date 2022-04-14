@@ -14,6 +14,7 @@ class Recipe(Document):
     serving_size = StringField()
     steps = ListField(StringField())
     tags = ListField(StringField())
-    
+    views = IntField(min_value=0)
+    rating = FloatField(min_value=0)
     def __str__(self) -> str:
         return self.name
