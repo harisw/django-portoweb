@@ -12,9 +12,10 @@ from django.http import Http404
 
 # Create your views here.
 def index(request):
-    time_categories = Category.objects(type=CategoryType.TIME)
-    method_categories = Category.objects(type=CategoryType.COOKING_METHOD)
-    meat_categories = Category.objects(type=CategoryType.MEAT)
+    time_categories = Category.objects(type=CategoryType.TIME.value)
+    method_categories = Category.objects(type=CategoryType.COOKING_METHOD.value)
+    meat_categories = Category.objects(type=CategoryType.MEAT.value)
+    print(time_categories)
     return render(request, 'wenak/wenak.html', {'time_cat': time_categories,
                                                 'method_cat': method_categories,
                                                 'meat_cat': meat_categories})

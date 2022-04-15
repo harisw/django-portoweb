@@ -8,7 +8,7 @@
                     <img src="{{ cat.image }}"
                     alt="{{ cat.name }} image" class="rounded mx-auto" width="250" height="300" style="object-fit: cover;">
                     <h4 class="text-center mt-2">
-                        <a href="{%url 'views_by_category' category=cat.type tag=cat.tag %}" style="text-decoration: none;">{{cat.name}}</a>
+                        <a href="{%url 'views_by_category' category_type=cat.type tag=cat.tag %}" style="text-decoration: none;">{{cat.name}}</a>
                     </h4>
                 </div>
             {% endfor %}

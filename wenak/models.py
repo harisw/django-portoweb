@@ -26,11 +26,11 @@ class CategoryType(Enum):
     COOKING_METHOD = 'cooking_method'
     MEAT = 'meat'
     def __str__(self) -> str:
-        return str(self.value)
+        return self.value
 
 class Category(Document):
     name = StringField(max_length=100)
-    type = EnumField(CategoryType)
+    type = StringField(max_length=50)
     description = StringField(null=True)
     image = StringField(null=True)
     tag = StringField(max_length=75)
