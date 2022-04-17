@@ -1,5 +1,7 @@
 import os
-from urllib import response
+import json
+from math import ceil
+from urllib import request, response
 from django.shortcuts import render, get_object_or_404
 from .models import Recipe, Category, CategoryType
 import csv
@@ -8,14 +10,13 @@ import os
 from rest_framework import generics
 from .serializers import RecipeSerializer
 from django.core.paginator import Paginator
-from django.http import Http404
+from django.http import Http404, JsonResponse, HttpResponse
 
 # Create your views here.
 def index(request):
     time_categories = Category.objects(type=CategoryType.TIME.value)
     method_categories = Category.objects(type=CategoryType.COOKING_METHOD.value)
     meat_categories = Category.objects(type=CategoryType.MEAT.value)
-    print(time_categories)
     return render(request, 'wenak/wenak.html', {'time_cat': time_categories,
                                                 'method_cat': method_categories,
                                                 'meat_cat': meat_categories})
@@ -74,7 +75,7 @@ def seed(request):
     Recipe.objects.insert(recipe_instances, load_bulk=False)
     return render(request, 'wenak/wenak.html', {})
 
-def categorySeed(request):
+def category_seed(request):
     csvfile = os.path.join(settings.STATIC_ROOT, 'categories_seed.csv')
     file = open(csvfile)
     csvreader = csv.reader(file)
@@ -98,3 +99,25 @@ class RecipeListCreate(generics.ListCreateAPIView):
     item_per_page = 10
     queryset = Recipe.objects.limit(item_per_page)
     serializer_class = RecipeSerializer
+
+def recipe_api(request):
+    item_per_page = int(request.GET.get('limit', 25))
+    page = int(request.GET.get('page', 1))
+    tag = request.GET.get('tag', '')
+    offset = (page - 1) * item_per_page
+    
+    if tag != '':
+        recipes = Recipe.objects.filter(tags=tag)
+    else:
+        recipes = Recipe.objects()
+    
+    size = recipes.count()
+    max_page = ceil(size / item_per_page)
+    recipes = recipes.skip(offset).limit(item_per_page)
+
+    dictionaries = [ obj.as_dict() for obj in recipes]
+    # data = list(Recipe.objects.filter(tags=tag).skip(offset).limit(page_size).value())
+    return HttpResponse(json.dumps({"data": dictionaries, "size": size, "max_page": max_page}), content_type='application/json')
+
+def recipe_detail(request, id):
+    return render(request, 'wenak/wenak.html', {})
