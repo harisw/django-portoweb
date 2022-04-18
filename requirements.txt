@@ -20,7 +20,6 @@ hyperlink==21.0.0
 idna==3.3
 incremental==21.3.0
 mongoengine==0.24.1
-pkg_resources==0.0.0
 psycopg2==2.9.3
 pyAesCrypt==6.0.0
 pyasn1==0.4.8
