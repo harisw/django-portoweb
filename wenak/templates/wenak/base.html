@@ -11,19 +11,22 @@
             <header>
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div class="container-fluid">
-                      <a class="navbar-brand" href="#">Navbar</a>
+                      <h2><a class="navbar-brand" href="{% url 'wenak_index'%}">Wenak</a></h2>
                       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                       </button>
                       <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active" aria-current="page" href="{% url 'wenak_index'%}">Home</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
+                            <a class="nav-link" href="#">Main Course</a>
                           </li>
-                          <li class="nav-item dropdown">
+                          <li class="nav-item">
+                            <a class="nav-link" href="{%url 'views_by_category' category_type='time' tag='desserts' %}">Dessert</a>
+                          </li>
+                          <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               Dropdown
                             </a>
@@ -33,10 +36,7 @@
                               <li><hr class="dropdown-divider"></li>
                               <li><a class="dropdown-item" href="#">Something else here</a></li>
                             </ul>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                          </li>
+                          </li> -->
                         </ul>
                         <form class="d-flex">
                           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -54,7 +54,7 @@
             </div>
         </div>
         </main>
-        <footer class="footer mt-auto py-3 pe-0 bg-dark">
+        <footer class="footer mt-auto py-5 pe-0 bg-dark">
           <div class="container">
             <span class="text-muted">Website by Hari Setiawan</span>
           </div>

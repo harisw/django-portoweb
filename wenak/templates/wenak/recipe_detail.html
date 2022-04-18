@@ -1,0 +1,65 @@
+{% extends 'wenak/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5 mb-5">
+        <div class="col-3">
+            <img src="{% static image %}"
+                    alt="{{ recipe.name }} image" class="rounded mx-auto" style="object-fit: cover; width: 100%;"
+                    width="250" height="300">
+        </div>
+        <div class="col-9 pt-5 border border-5" style="background-color: aliceblue;">
+            <h1>{{recipe.name}}</h1>
+            <p>{{recipe.description}}</p>
+            <h3>Ingredients</h3>
+            <div class="list-group list-group-horizontal" id="ingredientsGroup">
+                <div class="list-group-item list-group" id="firstIngredients">
+                    
+                </div>
+                <div class="list-group-item list-group" id="secIngredients">
+                    
+                </div>
+            </div>
+            <h3>Cooking steps:</h3>
+            <div class="list-group list-group-numbered" id="stepsGroup">
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    var ingredients = [
+        {% for i in recipe.ingredients %}
+            "{{i}}",
+        {% endfor %}
+    ];
+    var steps = [
+        {% for s in recipe.steps %}
+            "{{s}}",
+        {% endfor %}
+    ];
+
+    var ingredientsDiv = document.getElementById('ingredientsGroup');
+    $(ingredientsDiv).append(``)
+    var ingredientsCol = document.getElementById('firstIngredients');
+
+    ingredients.forEach((val, i) => {
+        if(i == ingredients.length/2){
+            ingredientsCol = document.getElementById('secIngredients');
+        }
+        $(ingredientsCol).append(`<a class="list-group-item list-group-item-action">${val}
+            </a>`);
+    });
+
+    var stepsDiv = document.getElementById('stepsGroup')
+    
+    steps.forEach((val) => {
+        $(stepsDiv).append(`<div class="list-group-item">
+            ${val}            
+        </div>`);
+    });
+    console.table(ingredients)
+</script>
+{% endblock %}

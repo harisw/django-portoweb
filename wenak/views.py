@@ -120,4 +120,8 @@ def recipe_api(request):
     return HttpResponse(json.dumps({"data": dictionaries, "size": size, "max_page": max_page}), content_type='application/json')
 
 def recipe_detail(request, id):
-    return render(request, 'wenak/wenak.html', {})
+    recipe = get_object_or_404(Recipe.objects(food_id=id))
+    img = recipe.image if recipe.image != None else "img/placeholder-food.webp"
+    print(img)
+    print(recipe.image)
+    return render(request, 'wenak/recipe_detail.html', {'recipe': recipe, 'image': img})
