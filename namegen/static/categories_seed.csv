@@ -1,0 +1,13 @@
+name,type,description,image,tag
+Breakfast,time,,,breakfast
+Lunch,time,,,lunch
+Dinner,time,,,dinner
+Dessert,time,,,desserts
+Frying,cooking_method,,,fry
+Oven,cooking_method,,,oven
+Grilling,cooking_method,,,grill
+Steaming,cooking_method,,,steam
+Beef,meat,,,beef
+Chicken,meat,,,chicken
+Pork,meat,,,pork
+Vegetarian,meat,,,vegetarian
