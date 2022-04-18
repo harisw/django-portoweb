@@ -1,0 +1,52 @@
+{% extends 'wenak/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="d-flex flex-row mt-5">
+            {% for cat in time_cat %}
+                <div class="pd-2 bd-highlight mx-3">
+                    <img src="{{ cat.image }}"
+                    alt="{{ cat.name }} image" class="rounded mx-auto" width="250" height="300" style="object-fit: cover;">
+                    <h4 class="text-center mt-2">
+                        <a href="{%url 'views_by_category' category_type=cat.type tag=cat.tag %}" style="text-decoration: none;">{{cat.name}}</a>
+                    </h4>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="d-flex flex-row my-3 mx-0 bg-dark p-3 justify-content-center">
+        <div class="bd-highlight px-3">
+            <h3 class="text-white">Search recipes</h4>
+        </div>
+        <div class="bd-highlight px-3">
+            <select class="form-select" aria-label="Default select example" id="methodSelect">
+                <option selected value="">Browse by method</option>
+                <option value="fry">Fry</option>
+                <option value="bake/oven">Bake / Oven</option>
+                <option value="grill">Grill</option>
+                <option value="steam">Steam</option>
+            </select>
+        </div>
+        <div class="bd-highlight px-3">
+            <select class="form-select" aria-label="Default select example" id="meatSelect">
+                <option selected value="">Browse by meat</option>
+                <option value="1">Beef</option>
+                <option value="2">Chicken</option>
+                <option value="3">Pork</option>
+                <option value="3">Vegetarian</option>
+            </select>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        var methodSelect = document.getElementById('methodSelect');
+        var meatSelect = document.getElementById('meatSelect');
+
+        methodSelect.addEventListener('change', function(ev) {
+            var url = window.location.href+"method/";
+            window.location = url+this.value;
+        })
+    </script>
+{% endblock %}

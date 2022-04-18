@@ -21,7 +21,6 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -43,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'namegen'
+    'namegen',
+    'wenak.apps.WenakConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -101,7 +102,8 @@ DATABASES = {
         'PORT': '',
     }
 }
-
+import mongoengine
+mongoengine.connect(env('MONGODB_NAME'), host=env('MONGODB_HOST'))
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -138,7 +140,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 TEMP_ROOT = BASE_DIR / 'tmp'
 
@@ -148,3 +150,10 @@ TEMP_ROOT = BASE_DIR / 'tmp'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+if not env('DEBUG'):
+    REST_FRAMEWORK = {
+        'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+        )
+    }
