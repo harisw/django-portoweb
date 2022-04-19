@@ -5,16 +5,18 @@
         <div class="d-flex flex-row mt-5">
             {% for cat in time_cat %}
                 <div class="pd-2 bd-highlight mx-3">
-                    <img src="{{ cat.image }}"
-                    alt="{{ cat.name }} image" class="rounded mx-auto" width="250" height="300" style="object-fit: cover;">
+                    <div class="img-cover">
+                        <img src="{{ cat.image }}"
+                        alt="{{ cat.name }} image" class="rounded mx-auto img-link" width="250" height="300" style="object-fit: cover;" data-url="{%url 'views_by_category' category_type=cat.type tag=cat.tag %}">
+                    </div>
                     <h4 class="text-center mt-2">
-                        <a href="{%url 'views_by_category' category_type=cat.type tag=cat.tag %}" style="text-decoration: none;">{{cat.name}}</a>
+                        <a class="text-dark" href="{%url 'views_by_category' category_type=cat.type tag=cat.tag %}" style="text-decoration: none;">{{cat.name}}</a>
                     </h4>
                 </div>
             {% endfor %}
         </div>
     </div>
-    <div class="d-flex flex-row my-3 mx-0 bg-dark p-3 justify-content-center">
+    <div class="d-flex flex-row my-3 mx-0 main-bg-dark p-3 justify-content-center">
         <div class="bd-highlight px-3">
             <h3 class="text-white">Search recipes</h4>
         </div>
@@ -47,6 +49,11 @@
         methodSelect.addEventListener('change', function(ev) {
             var url = window.location.href+"method/";
             window.location = url+this.value;
+        })
+
+        $('.food-poster').click(function(ev) {
+            window.location = $(this).data('url');
+            // window.location = this;
         })
     </script>
 {% endblock %}

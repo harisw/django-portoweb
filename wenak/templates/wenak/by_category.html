@@ -4,7 +4,7 @@
 <div class="container">
     <div class="d-flex flex-row mt-5 justify-content-center mb-5">
         <div class="bd-highlight w-50 text-center pt-5 border border-5" style="background-color: aliceblue;">
-            <h3>{{category.name}}</h3>
+            <h2>{{category.name}}</h2>
             <p>{{category.description}}</p>
         </div>
         <div class="bd-highlight w-50">
@@ -13,8 +13,8 @@
         </div>
     </div>
 </div>
-<div class="bg-secondary p-5">
-    <h4>All {{category.name}} Recipes</h4>
+<div class="main-primary-color p-5">
+    <h3>All {{category.name}} Recipes</h3>
     <div class="row align-items-start" id="recipeContent">
                 
     </div>
@@ -48,8 +48,10 @@
                 for(var j=0; j<recipes.length; j++){
                     var imgSource = recipes[j].image != null ? recipes[j].image : "{%static 'img/placeholder-food.webp' %}";
                     var newHtml = `<div class="col-3 text-center">
-                                    <img src="${imgSource}"
-                                    alt="Food image" class="rounded mx-auto thumbnail-img" width="225" height="275" style="object-fit: cover;">
+                                    <div class="img-cover">
+                                        <img src="${imgSource}"
+                                        alt="Food image" class="mx-auto img-link img-poster" width="225" height="275" style="object-fit: cover;" data-url="${recipeUrl}${recipes[j].id}">
+                                    </div>
                                     <div>
                                         <i class="bi bi-star-fill" style="font-size: 1.5rem; color: rgb(250, 226, 5);"></i>
                                         <i class="bi bi-star-fill" style="font-size: 1.5rem; color: rgb(250, 226, 5);"></i>
@@ -57,9 +59,11 @@
                                         <i class="bi bi-star-fill" style="font-size: 1.5rem; color: rgb(250, 226, 5);"></i>
                                         <i class="bi bi-star-fill" style="font-size: 1.5rem; color: rgb(250, 226, 5);"></i>
                                     </div>
-                                    <h4 class="text-center mt-2">
-                                        <a href="${recipeUrl}${recipes[j].id}" style="text-decoration: none;">${recipes[j].name}</a>
-                                    </h4>
+                                    <div class="link-wrapper">
+                                        <h4 class="text-center mt-2">
+                                            <a href="${recipeUrl}${recipes[j].id}" style="text-decoration: none;">${recipes[j].name}</a>
+                                        </h4>
+                                    </div>
                                 </div>`;
                     $(contentDiv).append(newHtml);
                 }
@@ -67,5 +71,8 @@
         });
     }
     fetchRecipes();
+    $(document).on('click', '.img-link', function() {
+        window.location = $(this).data('url');
+    })
 </script>
 {% endblock %}
