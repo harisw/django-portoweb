@@ -24,7 +24,7 @@
             <select class="form-select" aria-label="Default select example" id="methodSelect">
                 <option selected value="">Browse by method</option>
                 <option value="fry">Fry</option>
-                <option value="bake/oven">Bake / Oven</option>
+                <option value="oven">Bake / Oven</option>
                 <option value="grill">Grill</option>
                 <option value="steam">Steam</option>
             </select>
@@ -47,13 +47,8 @@
         var meatSelect = document.getElementById('meatSelect');
 
         methodSelect.addEventListener('change', function(ev) {
-            var url = window.location.href+"method/";
+            var url = window.location.href+"category/method/";
             window.location = url+this.value;
-        })
-
-        $('.food-poster').click(function(ev) {
-            window.location = $(this).data('url');
-            // window.location = this;
         })
     </script>
 {% endblock %}

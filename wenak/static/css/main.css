@@ -1,4 +1,17 @@
-
+@font-face {
+    font-family: 'PermanentMarker';
+    src: url('../font/PermanentMarker-Regular.eot');
+    src: url('../font/PermanentMarker-Regular.eot?#iefix') format('embedded-opentype'),
+         url('../font/PermanentMarker-Regular.ttf') format('woff'),
+         url('../font/PermanentMarker-Regular.woff') format('truetype');
+}
+.logo {
+    font-family: PermanentMarker;
+    font-size: larger;
+}
+body {
+    font-family: "Montserrat", Tahoma;
+}
 .main-primary-color {
     background-color: #BD3423;
 }

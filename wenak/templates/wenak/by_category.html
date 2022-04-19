@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <div class="d-flex flex-row mt-5 justify-content-center mb-5">
-        <div class="bd-highlight w-50 text-center pt-5 border border-5" style="background-color: aliceblue;">
+        <div class="bd-highlight w-50 text-center pt-5 px-3 border border-5" style="background-color: aliceblue;">
             <h2>{{category.name}}</h2>
             <p>{{category.description}}</p>
         </div>
@@ -71,8 +71,5 @@
         });
     }
     fetchRecipes();
-    $(document).on('click', '.img-link', function() {
-        window.location = $(this).data('url');
-    })
 </script>
 {% endblock %}
