@@ -43,8 +43,8 @@
                           </li> -->
                         </ul>
                         <form class="d-flex">
-                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                          <button class="btn main-sec-color" type="submit">Search</button>
+                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchKey">
+                          <button class="btn main-sec-color btn-search text-light" type="button">Search</button>
                         </form>
                       </div>
                     </div>
@@ -68,8 +68,13 @@
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
           $(document).on('click', '.img-link', function() {
-              window.location = $(this).data('url');
-          })
+            window.location = $(this).data('url');
+          });
+          $(document).on('click', '.btn-search', function(){
+            var keyword = document.getElementById('searchKey').value;
+            var targetUrl = `${window.location.origin}/wenak/recipe/search?keyword=${keyword}`;
+            window.location = targetUrl;
+          });
         </script>
         {% block script %}
         {% endblock %}
