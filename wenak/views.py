@@ -1,3 +1,4 @@
+from ast import keyword
 import os
 import json
 from math import ceil
@@ -22,14 +23,7 @@ def index(request):
                                                 'meat_cat': meat_categories})
 
 def by_category(request, category_type, tag):
-    category = get_object_or_404(Category.objects(tag=tag))
-    
-    # page_size = request.GET.get('size', 25);
-    # page = request.GET.get('page', 1)
-    # recipes = Recipe.objects(tags=category)
-    # result = Paginator(recipes, page_size)
-    # response = result.page(page).object_list
-    # return render(request, 'wenak/by_category.html', {'page': page, 'recipes': response })
+    category = get_object_or_404(Category.objects(tag=tag))    
     return render(request, 'wenak/by_category.html', {'category': category})
 
 def by_method(request, method):
@@ -110,18 +104,35 @@ def recipe_api(request):
         recipes = Recipe.objects.filter(tags=tag)
     else:
         recipes = Recipe.objects()
-    
     size = recipes.count()
     max_page = ceil(size / item_per_page)
     recipes = recipes.skip(offset).limit(item_per_page)
-
     dictionaries = [ obj.as_dict() for obj in recipes]
-    # data = list(Recipe.objects.filter(tags=tag).skip(offset).limit(page_size).value())
     return HttpResponse(json.dumps({"data": dictionaries, "size": size, "max_page": max_page}), content_type='application/json')
 
 def recipe_detail(request, id):
     recipe = get_object_or_404(Recipe.objects(food_id=id))
     img = recipe.image if recipe.image != None else "img/placeholder-food.webp"
-    print(img)
-    print(recipe.image)
     return render(request, 'wenak/recipe_detail.html', {'recipe': recipe, 'image': img})
+
+def recipe_search(request):
+    keyword = request.GET.get('keyword', '')
+    return render(request, 'wenak/recipe_search.html', {'keyword': keyword})
+
+def recipe_api_search(request):
+    item_per_page = int(request.GET.get('limit', 25))
+    page = int(request.GET.get('page', 1))
+    tag = request.GET.get('tag', '')
+    keyword = request.GET.get('keyword', '')
+    offset = (page - 1) * item_per_page
+    
+    recipes = Recipe.objects.search_text(keyword)
+
+    if tag != '':
+        recipes = recipes.filter(tags=tag)
+
+    size = recipes.count()
+    max_page = ceil(size / item_per_page)
+    recipes = recipes.skip(offset).limit(item_per_page)
+    dictionaries = [ obj.as_dict() for obj in recipes]
+    return HttpResponse(json.dumps({"data": dictionaries, "size": size, "max_page": max_page}), content_type='application/json')

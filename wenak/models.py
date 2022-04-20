@@ -20,6 +20,16 @@ class Recipe(Document):
     views = IntField(min_value=0)
     rating = FloatField(min_value=0)
 
+    meta = {'indexes': [
+        {'fields': ['$name', "$ingredient_tags", "$tags"],
+         'default_language': 'english',
+         'weights': {
+             'name': 10,
+             'ingredient_tags': 7,
+             'tags': 4
+            }
+        }
+    ]}
     def __str__(self) -> str:
         return self.name
 

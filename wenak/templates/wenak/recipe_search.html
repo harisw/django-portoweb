@@ -3,18 +3,22 @@
 {% block content %}
 <div class="container">
     <div class="d-flex flex-row mt-5 justify-content-center mb-5">
-        <div class="bd-highlight w-50 text-center pt-5 px-3 border border-5" style="background-color: aliceblue;">
-            <h2>{{category.name}}</h2>
-            <p>{{category.description}}</p>
-        </div>
-        <div class="bd-highlight w-50">
-            <img src="{{ category.image }}"
-                    alt="{{ category.name }} image" class="rounded mx-auto" style="object-fit: cover; width: 100%; height: 100%;">
+        <div class="bd-highlight w-100 p-5 px-3 border border-5" style="background-color: aliceblue;">
+            <h1>Find Recipes</h1>
+            <div class="mb-3 row">
+                <label for="keyword" class="col-2 col-form-label">Search: </label>
+                <div class="col-10">
+                    <input type="text" class="form-control" value="{{keyword}}" id="keyword">
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn main-sec-color text-light" id="searchBtn">Search</button>
+            </div>
         </div>
     </div>
 </div>
 <div class="main-primary-color p-5">
-    <h3>All {{category.name}} Recipes</h3>
+    <h3>Search Results: </h3>
     <div id="boxLoading" >
     </div>
     <div class="container" id="recipeDiv">
@@ -32,11 +36,12 @@
         <div class="text-center m-3">
             <h5 class="pagination-text"></h5>
             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn main-sec-color prev-page-btn" >< Prev </button>
+                <button type="button" class="btn main-sec-color prev-page-btn text-light" >< Prev </button>
                 
-                <button type="button" class="btn main-sec-color next-page-btn"> Next ></button>
+                <button type="button" class="btn main-sec-color next-page-btn text-light"> Next ></button>
             </div>
         </div>
+
     </div>
 </div>
 {% endblock %}
@@ -44,7 +49,8 @@
 {% block script%}
 <script>
     var contentDiv = document.getElementById('recipeContent');
-    var targetUrl = window.location.origin + "/wenak/api/recipe?tag={{category.tag}}";
+    var keyword = "{{keyword}}";
+    var targetUrl = window.location.origin + "/wenak/api/recipe/search?keyword=";
     var recipeUrl = window.location.origin + "/wenak/recipe/";
     var loading = document.getElementById('boxLoading');
     var recipeDiv = document.getElementById('recipeDiv');
@@ -58,15 +64,14 @@
         $(loading).show();
         $.ajax({
             type: "GET",
-            url: `${targetUrl}&page=${page}&limit=${limit}`,
+            url: `${targetUrl}${keyword}&page=${page}&limit=${limit}`,
             success: (resp) => {
                 var recipes = resp.data;
-                console.log(resp)
                 max_page = resp.max_page;
                 
                 if(initial){
                     for(var j=1; j<=max_page; j++){
-                        paginations += `<button type="button" class="btn main-sec-color page-btn" >${j}</button>`;
+                        paginations += `<button type="button" class="btn main-sec-color page-btn text-light" >${j}</button>`;
                     }
                     $(paginations).insertAfter(".prev-page-btn");
                     initial = false;
@@ -114,6 +119,10 @@
     $(loading).show();
     fetchRecipes();
     
+    $(document).on('click', '#searchBtn', function(){
+        keyword = document.getElementById('keyword').value;
+        fetchRecipes();
+    })
     $(document).on('click', '.page-btn', function(){
         if(page == this.textContent)
             return;

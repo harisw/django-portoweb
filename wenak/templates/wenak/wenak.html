@@ -5,35 +5,37 @@
         <div class="d-flex flex-row mt-5">
             {% for cat in time_cat %}
                 <div class="pd-2 bd-highlight mx-3">
-                    <img src="{{ cat.image }}"
-                    alt="{{ cat.name }} image" class="rounded mx-auto" width="250" height="300" style="object-fit: cover;">
+                    <div class="img-cover">
+                        <img src="{{ cat.image }}"
+                        alt="{{ cat.name }} image" class="rounded mx-auto img-link" width="250" height="300" style="object-fit: cover;" data-url="{%url 'views_by_category' category_type=cat.type tag=cat.tag %}">
+                    </div>
                     <h4 class="text-center mt-2">
-                        <a href="{%url 'views_by_category' category_type=cat.type tag=cat.tag %}" style="text-decoration: none;">{{cat.name}}</a>
+                        <a class="text-dark" href="{%url 'views_by_category' category_type=cat.type tag=cat.tag %}" style="text-decoration: none;">{{cat.name}}</a>
                     </h4>
                 </div>
             {% endfor %}
         </div>
     </div>
-    <div class="d-flex flex-row my-3 mx-0 bg-dark p-3 justify-content-center">
+    <div class="d-flex flex-row mt-3 mb-0 mx-0 main-sec-color p-3 justify-content-center">
         <div class="bd-highlight px-3">
             <h3 class="text-white">Search recipes</h4>
         </div>
         <div class="bd-highlight px-3">
-            <select class="form-select" aria-label="Default select example" id="methodSelect">
+            <select class="form-select browse-btn" aria-label="Default select example" id="methodSelect">
                 <option selected value="">Browse by method</option>
                 <option value="fry">Fry</option>
-                <option value="bake/oven">Bake / Oven</option>
+                <option value="oven">Bake / Oven</option>
                 <option value="grill">Grill</option>
                 <option value="steam">Steam</option>
             </select>
         </div>
         <div class="bd-highlight px-3">
-            <select class="form-select" aria-label="Default select example" id="meatSelect">
+            <select class="form-select browse-btn" aria-label="Default select example" id="meatSelect">
                 <option selected value="">Browse by meat</option>
-                <option value="1">Beef</option>
-                <option value="2">Chicken</option>
-                <option value="3">Pork</option>
-                <option value="3">Vegetarian</option>
+                <option value="beef">Beef</option>
+                <option value="chicken">Chicken</option>
+                <option value="pork">Pork</option>
+                <option value="vegetarian">Vegetarian</option>
             </select>
         </div>
     </div>
@@ -44,9 +46,10 @@
         var methodSelect = document.getElementById('methodSelect');
         var meatSelect = document.getElementById('meatSelect');
 
-        methodSelect.addEventListener('change', function(ev) {
-            var url = window.location.href+"method/";
-            window.location = url+this.value;
+        $(document).on('change', '.browse-btn', function(){
+            var keyword = this.options[this.selectedIndex].value;
+            var targetUrl = `${window.location.origin}/wenak/recipe/search?keyword=${keyword}`;
+            window.location = targetUrl;
         })
     </script>
 {% endblock %}
