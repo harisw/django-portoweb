@@ -15,8 +15,28 @@
 </div>
 <div class="main-primary-color p-5">
     <h3>All {{category.name}} Recipes</h3>
-    <div class="row align-items-start" id="recipeContent">
+    <div id="boxLoading" style="display: none;">
+    </div>
+    <div class="container" id="recipeDiv">
+        <div class="text-center m-3">
+            <h5 class="pagination-text"></h5>
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn main-sec-color prev-page-btn" >< Prev </button>
                 
+                <button type="button" class="btn main-sec-color next-page-btn"> Next ></button>
+            </div>
+        </div>
+        <div class="row align-items-start" id="recipeContent">
+                
+        </div>
+        <div class="text-center m-3">
+            <h5 class="pagination-text"></h5>
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn main-sec-color prev-page-btn" >< Prev </button>
+                
+                <button type="button" class="btn main-sec-color next-page-btn"> Next ></button>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -26,16 +46,32 @@
     var contentDiv = document.getElementById('recipeContent');
     var targetUrl = window.location.origin + "/wenak/api/recipe?tag={{category.tag}}";
     var recipeUrl = window.location.origin + "/wenak/recipe/";
+    var loading = document.getElementById('boxLoading');
+    var recipeDiv = document.getElementById('recipeDiv');
     var page = 1;
     var limit = 25;
-
+    var max_page = 0;
+    var paginations = ``;
+    var initial = true;
     function fetchRecipes(){
+        $(contentDiv).empty();
+        $(loading).show();
         $.ajax({
             type: "GET",
             url: `${targetUrl}&page=${page}&limit=${limit}`,
             success: (resp) => {
                 var recipes = resp.data;
-                console.log(recipes)
+                console.log(resp)
+                max_page = resp.max_page;
+                
+                if(initial){
+                    for(var j=1; j<=max_page; j++){
+                        paginations += `<button type="button" class="btn main-sec-color page-btn" >${j}</button>`;
+                    }
+                    $(paginations).insertAfter(".prev-page-btn");
+                    initial = false;
+                }
+                
                 if(recipes.length == 0){
                     Swal.fire(
                         'No result',
@@ -67,9 +103,39 @@
                                 </div>`;
                     $(contentDiv).append(newHtml);
                 }
+                $(loading).hide();
+                $(recipeDiv).show();
+                $(contentDiv).show();
+                $('.pagination-text').text(`Page ${page} of ${max_page}`);
             }
         });
     }
+    $(recipeDiv).hide();
+    $(loading).show();
     fetchRecipes();
+    
+    $(document).on('click', '.page-btn', function(){
+        if(page == this.textContent)
+            return;
+
+        page = this.textContent;
+        fetchRecipes();
+        if(page == 1)
+            $('.prev-page-btn').disable();
+        if(page == max_page)
+            $('.next-page-btn').disable();
+    });
+    $(document).on('click', '.prev-page-btn', function(){
+        if(page == 1)
+            return;
+        page--;;
+        fetchRecipes();
+    });
+    $(document).on('click', '.next-page-btn', function(){
+        if(page == max_page)
+            return;
+        page++;
+        fetchRecipes();
+    });
 </script>
 {% endblock %}

@@ -22,14 +22,7 @@ def index(request):
                                                 'meat_cat': meat_categories})
 
 def by_category(request, category_type, tag):
-    category = get_object_or_404(Category.objects(tag=tag))
-    
-    # page_size = request.GET.get('size', 25);
-    # page = request.GET.get('page', 1)
-    # recipes = Recipe.objects(tags=category)
-    # result = Paginator(recipes, page_size)
-    # response = result.page(page).object_list
-    # return render(request, 'wenak/by_category.html', {'page': page, 'recipes': response })
+    category = get_object_or_404(Category.objects(tag=tag))    
     return render(request, 'wenak/by_category.html', {'category': category})
 
 def by_method(request, method):
@@ -110,7 +103,6 @@ def recipe_api(request):
         recipes = Recipe.objects.filter(tags=tag)
     else:
         recipes = Recipe.objects()
-    
     size = recipes.count()
     max_page = ceil(size / item_per_page)
     recipes = recipes.skip(offset).limit(item_per_page)
