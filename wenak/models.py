@@ -11,7 +11,7 @@ class Recipe(Document):
     name = StringField(max_length=100)
     food_id = IntField()
     description = StringField(null=True)
-    image = StringField(max_length=255)
+    image = StringField()
     ingredients = ListField(StringField())
     ingredient_tags = ListField(StringField())
     serving_size = StringField()

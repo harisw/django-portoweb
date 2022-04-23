@@ -33,7 +33,7 @@ def by_meat(request, meat):
     return render(request, 'wenak/by_meat.html', {})
 
 def seed(request):
-    csvfile = os.path.join(settings.STATIC_ROOT, '1k_preprocessedrecipes.csv')
+    csvfile = os.path.join(settings.TEMP_ROOT, 'recipes_with_img.csv')
     file = open(csvfile)
     csvreader = csv.reader(file)
 
@@ -63,7 +63,8 @@ def seed(request):
             'tags': tags,
             'ingredient_tags': ingredient_tags,
             'views': 0,
-            'rating': 0
+            'rating': 0,
+            'image': row[8]
         })
     recipe_instances = [Recipe(**data) for data in rows]
     Recipe.objects.insert(recipe_instances, load_bulk=False)
@@ -101,7 +102,7 @@ def recipe_api(request):
     offset = (page - 1) * item_per_page
     
     if tag != '':
-        recipes = Recipe.objects.filter(tags=tag)
+        recipes = Recipe.objects.filter(tags=tag, image__ne='')
     else:
         recipes = Recipe.objects()
     size = recipes.count()
@@ -112,7 +113,7 @@ def recipe_api(request):
 
 def recipe_detail(request, id):
     recipe = get_object_or_404(Recipe.objects(food_id=id))
-    img = recipe.image if recipe.image != None else "img/placeholder-food.webp"
+    img = recipe.image if recipe.image != None else os.path.join(settings.STATIC_ROOT, "img/placeholder-food.webp")
     return render(request, 'wenak/recipe_detail.html', {'recipe': recipe, 'image': img})
 
 def recipe_search(request):
