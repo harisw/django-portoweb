@@ -102,7 +102,7 @@ def recipe_api(request):
     offset = (page - 1) * item_per_page
     
     if tag != '':
-        recipes = Recipe.objects.filter(tags=tag, image__ne='')
+        recipes = Recipe.objects.filter(tags=tag)
     else:
         recipes = Recipe.objects()
     size = recipes.count()
@@ -114,6 +114,9 @@ def recipe_api(request):
 def recipe_detail(request, id):
     recipe = get_object_or_404(Recipe.objects(food_id=id))
     img = recipe.image if recipe.image != None else os.path.join(settings.STATIC_ROOT, "img/placeholder-food.webp")
+    recipe.views += 1
+    recipe.save()
+    print(recipe.tags)
     return render(request, 'wenak/recipe_detail.html', {'recipe': recipe, 'image': img})
 
 def recipe_search(request):

@@ -2,16 +2,30 @@
 {% load static %}
 {% block content %}
 <div class="container">
-    <div class="row mt-5 mb-5">
+    <div class="row mt-5 py-3">
         <div class="col-3">
             <img src="{{ recipe.image }}"
                     alt="{{ recipe.name }} image" class="rounded mx-auto" style="object-fit: cover; width: 100%;"
                     width="250" height="300">
+            <div>
+                <i class="bi bi-star-fill" style="font-size: 1.5rem; color: rgb(250, 226, 5);"></i>
+                <i class="bi bi-star-fill" style="font-size: 1.5rem; color: rgb(250, 226, 5);"></i>
+                <i class="bi bi-star-fill" style="font-size: 1.5rem; color: rgb(250, 226, 5);"></i>
+                <i class="bi bi-star-fill" style="font-size: 1.5rem; color: rgb(250, 226, 5);"></i>
+                <i class="bi bi-star-fill" style="font-size: 1.5rem; color: rgb(250, 226, 5);"></i>
+            </div>
+            <h5>Views: {{recipe.views}}</h5>
+            <h5>Serving size: {{recipe.serving_size}}</h5>
+            <h5>Tags: {% for tag in recipe.tags %}
+                <span class="badge rounded-pill bg-primary my-1 tag-link">{{tag}}</span>
+                {% endfor %}
+            </h5>
+
         </div>
         <div class="col-9 pt-5 border border-5" style="background-color: aliceblue;">
-            <h1>{{recipe.name}}</h1>
+            <h1 class="display-3">{{recipe.name}}</h1>
             <p>{{recipe.description}}</p>
-            <h3>Ingredients</h3>
+            <h3>Ingredients:</h3>
             <div class="list-group list-group-horizontal" id="ingredientsGroup">
                 <div class="list-group-item list-group" id="firstIngredients">
                     
@@ -21,9 +35,9 @@
                 </div>
             </div>
             <h3>Cooking steps:</h3>
-            <div class="list-group list-group-numbered" id="stepsGroup">
+            <ol class="list-group list-group-numbered" id="stepsGroup">
                 
-            </div>
+            </ol>
         </div>
     </div>
 </div>
@@ -56,10 +70,15 @@
     var stepsDiv = document.getElementById('stepsGroup')
     
     steps.forEach((val) => {
-        $(stepsDiv).append(`<div class="list-group-item">
+        $(stepsDiv).append(`<li class="list-group-item">
             ${val}            
-        </div>`);
+        </li>`);
     });
-    console.table(ingredients)
+    
+    $(document).on('click', '.tag-link', function(){
+        var keyword = this.textContent;
+        var targetUrl = `${window.location.origin}/wenak/recipe/search?keyword=${keyword}`;
+        window.location = targetUrl;
+    })
 </script>
 {% endblock %}
