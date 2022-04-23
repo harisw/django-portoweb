@@ -21,9 +21,11 @@
         <div class="text-center m-3">
             <h5 class="pagination-text"></h5>
             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn main-sec-color prev-page-btn text-light" >< Prev </button>
+                <button type="button" class="btn main-sec-color first-page-btn text-light">First</button>
+                <button type="button" class="btn main-sec-color prev-page-btn text-light">< Prev </button>
                 
                 <button type="button" class="btn main-sec-color next-page-btn text-light"> Next ></button>
+                <button type="button" class="btn main-sec-color last-page-btn text-light" >Last </button>
             </div>
         </div>
         <div class="row align-items-start" id="recipeContent">
@@ -32,9 +34,11 @@
         <div class="text-center m-3">
             <h5 class="pagination-text"></h5>
             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn main-sec-color prev-page-btn" >< Prev </button>
+                <button type="button" class="btn main-sec-color first-page-btn text-light" >First</button>
+                <button type="button" class="btn main-sec-color prev-page-btn text-light" >< Prev </button>
                 
-                <button type="button" class="btn main-sec-color next-page-btn"> Next ></button>
+                <button type="button" class="btn main-sec-color next-page-btn text-light"> Next ></button>
+                <button type="button" class="btn main-sec-color last-page-btn text-light" >Last </button>
             </div>
         </div>
     </div>
@@ -53,6 +57,31 @@
     var max_page = 0;
     var paginations = ``;
     var initial = true;
+    var max_reach = 6;
+    var max_pagination = 12;
+    function updatePagination(){
+        // if(page >= max_reach){
+        //     var start_pagination = page-max_reach;
+        // } else {
+
+        // }
+        
+        var start_pagination = page <= max_reach ? 1 : page-max_reach;
+
+        var count = 1;
+        for(var j=start_pagination; j<=max_page; j++){
+            if(count >= max_pagination)
+                break;
+
+            paginations += `<button type="button" class="btn main-sec-color page-btn" >${j}</button>`;
+            count++;
+        }
+        $('.page-btn').remove();
+
+        $(paginations).insertAfter(".prev-page-btn");
+        paginations = ``;
+    }
+
     function fetchRecipes(){
         $(contentDiv).empty();
         $(loading).show();
@@ -64,14 +93,7 @@
                 console.log(resp)
                 max_page = resp.max_page;
                 
-                if(initial){
-                    for(var j=1; j<=max_page; j++){
-                        paginations += `<button type="button" class="btn main-sec-color page-btn" >${j}</button>`;
-                    }
-                    $(paginations).insertAfter(".prev-page-btn");
-                    initial = false;
-                }
-                
+                            
                 if(recipes.length == 0){
                     Swal.fire(
                         'No result',
@@ -80,6 +102,7 @@
                     )
                     return;
                 }
+                updatePagination();
                 $(contentDiv).empty();
                 for(var j=0; j<recipes.length; j++){
                     var imgSource = recipes[j].image != null ? recipes[j].image : "{%static 'img/placeholder-food.webp' %}";
@@ -135,6 +158,18 @@
         if(page == max_page)
             return;
         page++;
+        fetchRecipes();
+    });
+    $(document).on('click', '.first-page-btn', function(){
+        if(page == 1)
+            return;
+        page = 1;
+        fetchRecipes();
+    });
+    $(document).on('click', '.last-page-btn', function(){
+        if(page == max_page)
+            return;
+        page = max_page
         fetchRecipes();
     });
 </script>
